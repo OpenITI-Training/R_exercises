@@ -1,0 +1,317 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2578
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset178 GeezaPro;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Chapter 3 Tutorial RConsole Output\
+\
+Setting Up \
+> library("stringr")\
+> \
+> url <- "https://raw.githubusercontent.com/OpenITI/0325AH/master/data/0310Tabari/0310Tabari.Tarikh/0310Tabari.Tarikh.Shamela0009783BK1-ara1.completed"\
+> text_v <- scan(url, what="character", sep="\\n", encoding="UTF-8")\
+> splitter_index <- which(text_v == "#META#Header#End#")\
+> lines_v <- text_v[(splitter_index+1):length(text_v)]\
+> book_v <- paste(lines_v, collapse = "\\n")\
+> book_word_l <- str_split(book_v, "\\\\W+")\
+> book_word_v <- unlist(book_word_l)\
+> book_freqs_t <- table(book_word_v)\
+> sorted_book_freqs_t <- sort(book_freqs_t, decreasing = TRUE)\
+> \
+\
+Accessing Token Freq. Data\
+Exercise 1 \
+> # Print 5th most common token: \
+> sorted_book_freqs_t[1:5]\
+book_word_v\
+   
+\f1 \'c8\'e4
+\f0     
+\f1 \'e3\'e4
+\f0    
+\f1 \'de\'c7\'e1
+\f0     
+\f1 \'dd\'ed
+\f0   
+\f1 \'c7\'e1\'e1\'e5
+\f0  \
+44050 37432 25686 24559 20448 \
+> # Print 5th most common token: \
+> sorted_book_freqs_t[5]\
+ 
+\f1 \'c7\'e1\'e1\'e5
+\f0  \
+20448 \
+> \
+\
+Exercise 2\
+> # Print the 10 most common tokens and their frequencies: \
+> sorted_book_freqs_t[1:10]\
+book_word_v\
+   
+\f1 \'c8\'e4
+\f0     
+\f1 \'e3\'e4
+\f0    
+\f1 \'de\'c7\'e1
+\f0     
+\f1 \'dd\'ed
+\f0   
+\f1 \'c7\'e1\'e1\'e5
+\f0    
+\f1 \'c5\'e1\'ec
+\f0    
+\f1 \'da\'e1\'ec
+\f0     
+\f1 \'da\'e4
+\f0     
+\f1 \'c3\'e4
+\f0     
+\f1 \'e3\'c7
+\f0  \
+44050 37432 25686 24559 20448 17735 17407 13657 12170 12135 \
+> \
+\
+Exercise 3\
+> # Print the frequency of the token "al-khalifa": \
+> # Print the frequency of the token "al-khalifa": \
+> sorted_book_freqs_t[
+\f1 \'c7\'e1\'ce\'e1\'ed\'dd\'c9
+\f0 ]\
+Error: object '
+\f1 \'c7\'e1\'ce\'e1\'ed\'dd\'c9
+\f0 ' not found\
+> sorted_book_freqs_t[
+\f1 \'c7\'e1\'ce\'e1\'ed\'dd\'c9
+\f0 ]\
+Error: object '
+\f1 \'c7\'e1\'ce\'e1\'ed\'dd\'c9
+\f0 ' not found\
+> sorted_book_freqs_t["
+\f1 \'c7\'e1\'ce\'e1\'ed\'dd\'c9
+\f0 "]\
+
+\f1 \'c7\'e1\'ce\'e1\'ed\'dd\'c9
+\f0  \
+    121 \
+\
+Relative Frequencies\
+> all_tokens <- length(book_word_v)\
+> all_tokens\
+[1] 1469487\
+\
+> > all_token_freqs <- sum(sorted_book_freqs_t)\
+> all_token_freqs\
+[1] 1469487\
+> all_token_freqs == all_tokens\
+[1] TRUE\
+> \
+\
+> all_token_freqs <- sum(sorted_book_freqs_t)\
+> rel_freq <- sorted_book_freqs_t[1] / all_token_freqs\
+> rel_freq\
+        
+\f1 \'c8\'e4
+\f0  \
+0.02997645 \
+> \
+\
+Exercise 1 \
+> rel_freq_Khalifa <- sorted_book_freqs_t["
+\f1 \'c7\'e1\'ce\'e1\'ed\'dd\'c9
+\f0 "] / all_token_freqs\
+> rel_freq_Khalifa\
+\\u0627\\u0644\\u062e\\u0644\\u064a\\u0641\\u0629 \
+                              8.234166e-05 \
+> message(rel_freq_Khalifa)\
+8.23416607292205e-05\
+\
+Recycling\
+> all_token_freqs <- sum(sorted_book_freqs_t)\
+> \
+> most_common <- sorted_book_freqs_t[1:10]\
+> print("10 most common tokens")\
+[1] "10 most common tokens"\
+> most_common\
+book_word_v\
+   
+\f1 \'c8\'e4
+\f0     
+\f1 \'e3\'e4
+\f0    
+\f1 \'de\'c7\'e1
+\f0     
+\f1 \'dd\'ed
+\f0   
+\f1 \'c7\'e1\'e1\'e5
+\f0    
+\f1 \'c5\'e1\'ec
+\f0    
+\f1 \'da\'e1\'ec
+\f0     
+\f1 \'da\'e4
+\f0     
+\f1 \'c3\'e4
+\f0     
+\f1 \'e3\'c7
+\f0  \
+44050 37432 25686 24559 20448 17735 17407 13657 12170 12135 \
+> class(most_common)\
+[1] "table"\
+> \
+> rel_freq <- most_common / all_token_freqs\
+> print("relative frequencies:")\
+[1] "relative frequencies:"\
+> rel_freq\
+book_word_v\
+         
+\f1 \'c8\'e4
+\f0           
+\f1 \'e3\'e4
+\f0          
+\f1 \'de\'c7\'e1
+\f0           
+\f1 \'dd\'ed
+\f0         
+\f1 \'c7\'e1\'e1\'e5
+\f0          
+\f1 \'c5\'e1\'ec
+\f0  \
+0.029976448 0.025472835 0.017479569 0.016712635 0.013915060 0.012068838 \
+        
+\f1 \'da\'e1\'ec
+\f0           
+\f1 \'da\'e4
+\f0           
+\f1 \'c3\'e4
+\f0           
+\f1 \'e3\'c7
+\f0  \
+0.011845630 0.009293720 0.008281802 0.008257984 \
+> \
+\
+Rel Frequency to Percent \
+> all_token_freqs <- sum(sorted_book_freqs_t)\
+> rel_freq <- sorted_book_freqs_t[1] / all_token_freqs\
+> print("relative frequency:")\
+[1] "relative frequency:"\
+> rel_freq\
+        
+\f1 \'c8\'e4
+\f0  \
+0.02997645 \
+> perc <- 100 * rel_freq\
+> print("relative frequency (percentage):")\
+[1] "relative frequency (percentage):"\
+> perc\
+      
+\f1 \'c8\'e4
+\f0  \
+2.997645 \
+> \
+\
+Code Percentages 10 most frequent tokens \
+> # calculate the relative frequency (as a percentage) of the 10 most frequent tokens:\
+> all_token_freqs <- sum(sorted_book_freqs_t)\
+> rel_freq <- sorted_book_freqs_t[1:10] / all_token_freqs\
+> print("relative frequency:")\
+[1] "relative frequency:"\
+> rel_freq\
+book_word_v\
+         
+\f1 \'c8\'e4
+\f0           
+\f1 \'e3\'e4
+\f0          
+\f1 \'de\'c7\'e1
+\f0           
+\f1 \'dd\'ed
+\f0         
+\f1 \'c7\'e1\'e1\'e5
+\f0          
+\f1 \'c5\'e1\'ec
+\f0  \
+0.029976448 0.025472835 0.017479569 0.016712635 0.013915060 0.012068838 \
+        
+\f1 \'da\'e1\'ec
+\f0           
+\f1 \'da\'e4
+\f0           
+\f1 \'c3\'e4
+\f0           
+\f1 \'e3\'c7
+\f0  \
+0.011845630 0.009293720 0.008281802 0.008257984 \
+> perc <- 100 * rel_freq\
+> print("relative frequency (percentage):")\
+[1] "relative frequency (percentage):"\
+> perc\
+book_word_v\
+       
+\f1 \'c8\'e4
+\f0         
+\f1 \'e3\'e4
+\f0        
+\f1 \'de\'c7\'e1
+\f0         
+\f1 \'dd\'ed
+\f0       
+\f1 \'c7\'e1\'e1\'e5
+\f0        
+\f1 \'c5\'e1\'ec
+\f0        
+\f1 \'da\'e1\'ec
+\f0         
+\f1 \'da\'e4
+\f0  \
+2.9976448 2.5472835 1.7479569 1.6712635 1.3915060 1.2068838 1.1845630 0.9293720 \
+       
+\f1 \'c3\'e4
+\f0         
+\f1 \'e3\'c7
+\f0  \
+0.8281802 0.8257984 \
+> \
+\
+Exercise 1 Multiply 2 vectors that are not even multiples of each other \
+1: # create two numeric vectors, one with 5 elements and one with 3 elements\
+2: a <- (2,\
+          ^\
+> # create two numeric vectors, one with 5 elements and one with 3 elements\
+> a <- c(2,3,6,9,1)\
+> b <- c(1,9,3)\
+> # try multiplying them. What happens?\
+> a * b\
+Warning message: longer object length is not a multiple of shorter object length\
+[1]  2 27 18  9  9\
+> \
+\
+Exercise 2 Add 2 vectors that are not even multiples of each other \
+> # create two numeric vectors of different size \
+> a <- c(3,4,5,10,26,11,2)\
+> b <- c(1,6,8)\
+> # try adding them. What happens?\
+> a + b\
+Warning message: longer object length is not a multiple of shorter object length\
+[1]  4 10 13 11 32 19  3\
+> \
+\
+\
+Exercise 3 percentage of Al-Tabari\'92s work consisting of 20 most common words. \
+> all_token_freqs <- sum(sorted_book_freqs_t)\
+> \
+> most_common <- sum(sorted_book_freqs_t[1:20])\
+> print("Cumulative 20 most common tokens")\
+[1] "Cumulative 20 most common tokens"\
+> most_common\
+[1] 312572\
+> class(most_common)\
+[1] "integer"\
+> \
+> rel_freq <- most_common / all_token_freqs\
+> print("relative frequencies:")\
+[1] "relative frequencies:"\
+> rel_freq\
+[1] 0.2127082}
